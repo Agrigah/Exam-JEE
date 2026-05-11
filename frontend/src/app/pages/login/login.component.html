@@ -1,42 +1,76 @@
-<div class="login-screen">
-  <section class="cover-panel">
-    <span class="tag">RentFleet / Exam JEE</span>
-    <h1>Une interface differente pour le meme backend.</h1>
-    <p>Theme automobile, navigation laterale et experience plus compacte pour gerer agences, vehicules et locations.</p>
-    <div class="features">
-      <div><strong>Spring</strong><span>REST + JWT</span></div>
-      <div><strong>Angular</strong><span>Standalone UI</span></div>
-      <div><strong>Roles</strong><span>Admin / Employe / Client</span></div>
-    </div>
-  </section>
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/auth.service';
 
-  <section class="login-box card">
-    <div class="title-row">
-      <div class="round-logo">RF</div>
-      <div>
-        <h2>Connexion</h2>
-        <p>Choisir un compte demo ou saisir vos identifiants.</p>
-      </div>
-    </div>
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
+})
+export class LoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
-    <div class="alert error" *ngIf="error">{{ error }}</div>
+  loading = false;
+  error = '';
 
-    <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
-      <div class="field">
-        <label>Utilisateur</label>
-        <input formControlName="username" placeholder="admin">
-      </div>
-      <div class="field">
-        <label>Mot de passe</label>
-        <input formControlName="password" placeholder="admin123" type="password">
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="loading">{{ loading ? 'Verification...' : 'Entrer dans l application' }}</button>
-    </form>
+  form = this.fb.nonNullable.group({
+    username: ['admin', Validators.required],
+    password: ['admin123', Validators.required]
+  });
 
-    <div class="demo-users">
-      <button class="btn btn-ghost" type="button" (click)="useDemo('admin','admin123')">Admin</button>
-      <button class="btn btn-ghost" type="button" (click)="useDemo('employee','employee123')">Employe</button>
-      <button class="btn btn-ghost" type="button" (click)="useDemo('client','client123')">Client</button>
-    </div>
-  </section>
-</div>
+  login(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+    this.error = '';
+
+    this.auth.login(this.form.getRawValue()).subscribe({
+      next: (response: any) => {
+        console.log('LOGIN RESPONSE:', response);
+
+        const token = response.token || response.accessToken || response.jwt;
+
+        if (!token) {
+          this.loading = false;
+          this.error = 'Connexion réussie mais token introuvable dans la réponse.';
+          return;
+        }
+
+        this.auth.saveToken(token);
+
+        if (response.user) {
+          this.auth.saveUser(response.user);
+        }
+
+        this.loading = false;
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (err: any) => {
+        console.error('LOGIN ERROR:', err);
+
+        this.loading = false;
+
+        if (err.status === 0) {
+          this.error = 'Serveur backend indisponible. Vérifiez que Spring Boot est lancé sur le port 8085.';
+        } else if (err.status === 401 || err.status === 403) {
+          this.error = 'Identifiants incorrects.';
+        } else {
+          this.error = err?.error?.message || 'Identifiants incorrects ou serveur indisponible.';
+        }
+      }
+    });
+  }
+
+  useDemo(username: string, password: string): void {
+    this.form.setValue({ username, password });
+  }
+}
