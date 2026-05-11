@@ -32,7 +32,7 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
-  saveUser(user: CurrentUser): void {
+  saveUser(user: any): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
