@@ -1,0 +1,6 @@
+.role-card { padding: 1.2rem; position: relative; overflow: hidden; }
+.role-card:after { content: ''; position: absolute; right: -28px; bottom: -28px; width: 92px; height: 92px; background: rgba(232,93,4,.12); border-radius: 50%; }
+.role-card p { color: var(--muted); line-height: 1.6; font-weight: 800; }
+.note-card { margin-top: 1.1rem; padding: 1.2rem; }
+.note-card h2 { margin-top: 0; }
+.note-card p { color: var(--muted); line-height: 1.7; font-weight: 700; }
