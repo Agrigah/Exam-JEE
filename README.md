@@ -1,6 +1,116 @@
-🚗 Vehicle Rental Management System - Master SDIACe projet est réalisé dans le cadre du module Architecture Distribuée et Middleware à l'ENSET Mohammedia. Il s'agit d'une application de gestion de location de véhicules (Voitures et Motos) multi-agences, basée sur une architecture JEE moderne.  🏗️ Architecture TechniqueL'application repose sur une architecture N-Tiers découplée:  Backend : Spring Boot 3.x avec Spring Data JPA et Hibernate.  Frontend : Angular (version 20.x) pour une interface réactive et responsive.  Sécurité : Authentification stateless avec JSON Web Token (JWT) et cryptage BCrypt.  Base de données : H2 Database (Mode In-Memory pour les tests).  Documentation API : Swagger UI / OpenAPI 3.  📊 Modèle de Données & ConceptionHéritage JPA : Utilisation de la stratégie JOINED pour la hiérarchie Vehicle -> Car / Motorcycle.  Gestion des Agences : Chaque véhicule appartient à une agence unique.  Calcul Métier : Le prix total des locations est calculé automatiquement selon la durée et le prix par jour du véhicule.  🔐 Matrice des RôlesRôleCapacitésROLE_ADMINAccès total : gestion des agences, véhicules et suppressions.  ROLE_EMPLOYEGestion opérationnelle : ajout de véhicules et clôture des locations.  ROLE_CLIENTConsultation du catalogue et création de réservations.  🚀 Installation et Lancement1. Backend (Spring Boot)Bashcd backend
+# 🚗 Vehicle Rental Management System - Master SDIA
+
+## 📌 Présentation du projet
+
+Ce projet est réalisé dans le cadre du module **Architecture Distribuée et Middleware** à l’**ENSET Mohammedia**.
+
+Il s’agit d’une application de gestion de location de véhicules multi-agences. Le système permet la gestion des agences, des véhicules, des utilisateurs et des locations. L’application repose sur une architecture JEE moderne avec un backend Spring Boot sécurisé par JWT.
+
+---
+
+## 🎯 Objectifs du projet
+
+L’objectif principal de ce projet est de développer une application web permettant de gérer efficacement un système de location de véhicules.
+
+Les principales fonctionnalités sont :
+
+- Gestion des agences de location
+- Gestion des véhicules : voitures et motos
+- Gestion des utilisateurs selon leurs rôles
+- Authentification sécurisée avec JWT
+- Création et suivi des locations
+- Calcul automatique du prix total d’une location
+- Documentation et test des API avec Swagger UI
+
+---
+
+## 🏗️ Architecture technique
+
+L’application repose sur une architecture **N-Tiers** découplée :
+
+### Backend
+
+- Spring Boot 3.x
+- Spring Data JPA
+- Hibernate
+- Spring Security
+- JWT Authentication
+- Maven
+
+### Frontend
+
+- Angular 20.x
+- Interface réactive et responsive
+
+### Base de données
+
+- H2 Database
+- Mode In-Memory pour les tests
+
+### Documentation API
+
+- Swagger UI
+- OpenAPI 3
+
+---
+
+## 📁 Structure du projet
+
+```text
+Exam-JEE/
+│
+├── backend/
+│   │
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── ma/enset/agrigahaya/examjee/
+│   │   │   │       ├── controllers/
+│   │   │   │       ├── entities/
+│   │   │   │       ├── repositories/
+│   │   │   │       ├── services/
+│   │   │   │       ├── security/
+│   │   │   │       └── ExamJeeApplication.java
+│   │   │   │
+│   │   │   └── resources/
+│   │   │       └── application.properties
+│   │   │
+│   │   └── test/
+│   │       └── java/
+│   │
+│   ├── pom.xml
+│   └── README.md
+│
+└── .gitignore
+```
+🔐 Sécurité et authentification
+
+L’application utilise Spring Security avec une authentification stateless basée sur JSON Web Token - JWT.
+
+Le mot de passe des utilisateurs est sécurisé avec BCrypt.
+
+Fonctionnement général
+L’utilisateur s’authentifie avec son username et son mot de passe.
+Le backend vérifie les informations.
+Si les informations sont valides, un token JWT est généré.
+Le client utilise ce token pour accéder aux endpoints protégés.
+Le backend vérifie le token à chaque requête.
+
+👥 Matrice des rôles
+Rôle	Capacités
+ROLE_ADMIN	Accès total : gestion des agences, gestion des véhicules, gestion des utilisateurs et suppressions
+ROLE_EMPLOYE	Gestion opérationnelle : ajout de véhicules, modification des informations et clôture des locations
+ROLE_CLIENT	Consultation du catalogue, création de réservations et suivi de ses locations
+
+
+🚀 Installation et lancement
+1. Cloner le projet
+git clone https://github.com/Agrigah/Exam-JEE.git
+cd Exam-JEE
+2. Lancer le backend Spring Boot
+cd backend
 mvn clean spring-boot:run
-Accès API : http://localhost:8085   Swagger : http://localhost:8085/swagger-ui.html   Console H2 : http://localhost:8085/h2-console (JDBC: jdbc:h2:mem:vehicle_rental_db)   2. Frontend (Angular)Bashcd frontend
-npm install
-npm start
-Accès App : http://localhost:4200   👤 Comptes de TestCompteIdentifiantMot de passeAdministrateuradminadmin123   Employéemployeeemployee123   Clientclientclient123   📁 Structure du Repository/backend : Code source Spring Boot (Entités, Services, Controllers).  /frontend : Code source Angular (Components, Interceptors, Guards).  /docs : Diagrammes PlantUML et documentation de l'architecture.  rapport.pdf : Rapport détaillé de conception et d'implémentation.  Auteur : Aya – Master SDIA.  
+
+L’application démarre par défaut sur :
+
+http://localhost:8085
