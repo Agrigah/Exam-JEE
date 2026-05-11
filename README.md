@@ -55,7 +55,7 @@ L’application repose sur une architecture **N-Tiers** découplée :
 ---
 
 ## 📁 Structure du projet
-
+```text
 Exam-JEE/
 │
 ├── backend/
