@@ -1,0 +1,18 @@
+.layout { min-height: 100vh; display: grid; grid-template-columns: 292px 1fr; }
+.rail { position: sticky; top: 0; height: 100vh; padding: 1.1rem; background: #1c1917; color: #fff7ed; display: flex; flex-direction: column; gap: 1.1rem; }
+.logo-box { display: flex; align-items: center; gap: .8rem; padding: .9rem; border-radius: 22px; background: linear-gradient(135deg, rgba(232,93,4,.32), rgba(15,118,110,.18)); border: 1px solid rgba(255,255,255,.1); }
+.logo-mark { width: 48px; height: 48px; border-radius: 17px; display: grid; place-items: center; background: #fb923c; color: #1c1917; font-weight: 950; letter-spacing: -.05em; }
+.logo-box strong { display: block; font-size: 1.1rem; }
+.logo-box span, .profile span { display: block; color: #d6d3d1; font-size: .82rem; margin-top: .15rem; }
+.main-nav { display: grid; gap: .45rem; }
+.main-nav a { padding: .9rem 1rem; border-radius: 15px; color: #d6d3d1; font-weight: 800; transition: background .18s ease, color .18s ease, transform .18s ease; }
+.main-nav a:hover, .main-nav a.active { background: #fff7ed; color: #1c1917; transform: translateX(3px); }
+.profile { margin-top: auto; display: flex; gap: .75rem; align-items: center; padding: .85rem; border-radius: 18px; background: rgba(255,255,255,.08); }
+.avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #0f766e; color: white; font-weight: 900; }
+.logout { width: 100%; background: transparent; color: #fff7ed; border-color: rgba(255,255,255,.14); }
+.workspace { padding: 1.1rem 1.3rem 2rem; min-width: 0; }
+.topbar { min-height: 74px; padding: .9rem 1.1rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; }
+.eyebrow { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 900; margin-bottom: .15rem; }
+.chip { border: 1px solid var(--line); background: white; color: var(--muted); border-radius: 999px; padding: .55rem .8rem; font-weight: 800; }
+.content { max-width: 1220px; margin: 0 auto; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .rail { position: relative; height: auto; } .main-nav { grid-template-columns: repeat(2, 1fr); } .topbar { flex-direction: column; align-items: flex-start; gap: .6rem; } }

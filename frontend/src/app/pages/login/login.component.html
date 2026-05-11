@@ -1,0 +1,42 @@
+<div class="login-screen">
+  <section class="cover-panel">
+    <span class="tag">RentFleet / Exam JEE</span>
+    <h1>Une interface differente pour le meme backend.</h1>
+    <p>Theme automobile, navigation laterale et experience plus compacte pour gerer agences, vehicules et locations.</p>
+    <div class="features">
+      <div><strong>Spring</strong><span>REST + JWT</span></div>
+      <div><strong>Angular</strong><span>Standalone UI</span></div>
+      <div><strong>Roles</strong><span>Admin / Employe / Client</span></div>
+    </div>
+  </section>
+
+  <section class="login-box card">
+    <div class="title-row">
+      <div class="round-logo">RF</div>
+      <div>
+        <h2>Connexion</h2>
+        <p>Choisir un compte demo ou saisir vos identifiants.</p>
+      </div>
+    </div>
+
+    <div class="alert error" *ngIf="error">{{ error }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
+      <div class="field">
+        <label>Utilisateur</label>
+        <input formControlName="username" placeholder="admin">
+      </div>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input formControlName="password" placeholder="admin123" type="password">
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="loading">{{ loading ? 'Verification...' : 'Entrer dans l application' }}</button>
+    </form>
+
+    <div class="demo-users">
+      <button class="btn btn-ghost" type="button" (click)="useDemo('admin','admin123')">Admin</button>
+      <button class="btn btn-ghost" type="button" (click)="useDemo('employee','employee123')">Employe</button>
+      <button class="btn btn-ghost" type="button" (click)="useDemo('client','client123')">Client</button>
+    </div>
+  </section>
+</div>

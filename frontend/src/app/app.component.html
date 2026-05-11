@@ -1,0 +1,47 @@
+<ng-container *ngIf="!isLoginPage; else publicPage">
+  <div class="layout">
+    <aside class="rail">
+      <div class="logo-box">
+        <div class="logo-mark">RF</div>
+        <div>
+          <strong>RentFleet</strong>
+          <span>Agence auto</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <a routerLink="/dashboard" routerLinkActive="active">Vue generale</a>
+        <a routerLink="/vehicles" routerLinkActive="active">Parc vehicules</a>
+        <a routerLink="/agencies" routerLinkActive="active">Agences</a>
+        <a routerLink="/rentals" routerLinkActive="active">Contrats</a>
+        <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active">Securite</a>
+      </nav>
+
+      <div class="profile" *ngIf="auth.currentUser as user">
+        <div class="avatar">{{ user.fullName.charAt(0) }}</div>
+        <div>
+          <strong>{{ user.fullName }}</strong>
+          <span>{{ user.role }}</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost logout" (click)="logout()">Sortir</button>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar card">
+        <div>
+          <span class="eyebrow">Projet JEE distribue</span>
+          <strong>Location de vehicules</strong>
+        </div>
+        <div class="chip" *ngIf="auth.currentUser as user">Connecte: {{ user.username }}</div>
+      </header>
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+    </section>
+  </div>
+</ng-container>
+
+<ng-template #publicPage>
+  <router-outlet></router-outlet>
+</ng-template>

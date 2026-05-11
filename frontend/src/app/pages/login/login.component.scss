@@ -1,0 +1,18 @@
+.login-screen { min-height: 100vh; display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 2rem; padding: clamp(1rem, 4vw, 4rem); }
+.cover-panel { min-height: 620px; border-radius: 34px; padding: clamp(2rem, 5vw, 4rem); color: #fff7ed; background: linear-gradient(135deg, rgba(28,25,23,.95), rgba(120,53,15,.86)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80') center/cover; box-shadow: 0 30px 80px rgba(28,25,23,.26); display: flex; flex-direction: column; justify-content: flex-end; }
+.tag { width: max-content; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); padding: .55rem .9rem; border-radius: 999px; font-weight: 900; margin-bottom: 1rem; }
+h1 { font-size: clamp(2.5rem, 5vw, 5rem); line-height: .95; margin: 0 0 1rem; letter-spacing: -.07em; max-width: 760px; }
+p { color: #fed7aa; font-size: 1.05rem; line-height: 1.8; max-width: 620px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: .85rem; margin-top: 1.4rem; }
+.features div { background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.16); padding: 1rem; border-radius: 18px; }
+.features strong, .features span { display: block; }
+.features span { color: #fed7aa; margin-top: .25rem; }
+.login-box { padding: clamp(1.2rem, 4vw, 2rem); }
+.title-row { display: flex; gap: .9rem; align-items: center; margin-bottom: 1.4rem; }
+.round-logo { width: 58px; height: 58px; border-radius: 21px; background: var(--primary); color: white; display: grid; place-items: center; font-weight: 950; }
+h2 { margin: 0; font-size: 2rem; letter-spacing: -.04em; }
+.title-row p { color: var(--muted); margin: .2rem 0 0; line-height: 1.45; }
+.login-form { display: grid; gap: 1rem; }
+.login-form .btn-primary { width: 100%; min-height: 48px; margin-top: .2rem; }
+.demo-users { display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem; margin-top: 1rem; }
+@media (max-width: 980px) { .login-screen { grid-template-columns: 1fr; } .cover-panel { min-height: 420px; } .features { grid-template-columns: 1fr; } }

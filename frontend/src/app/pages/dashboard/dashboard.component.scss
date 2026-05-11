@@ -1,0 +1,24 @@
+.stats .stat { padding: 1.25rem; position: relative; overflow: hidden; }
+.stat:after { content: ''; position: absolute; right: -30px; top: -30px; width: 95px; height: 95px; border-radius: 50%; background: rgba(232,93,4,.11); }
+.stat span, .mini span { color: var(--muted); font-weight: 900; text-transform: uppercase; font-size: .75rem; letter-spacing: .08em; }
+.stat strong, .mini strong { display: block; font-size: 2.45rem; margin-top: .35rem; letter-spacing: -.05em; }
+.stat.success:after { background: rgba(21,128,61,.14); }
+.stat.warning:after { background: rgba(180,83,9,.14); }
+.client-hero { padding: 1.5rem; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.client-hero h2 { margin: .65rem 0 .35rem; font-size: 2rem; }
+.client-hero p { color: var(--muted); }
+.available-card { margin-top: 1.15rem; padding: 1.25rem; }
+.section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.section-title h2 { margin: 0; font-size: 1.45rem; }
+.section-title p { margin: .2rem 0 0; color: var(--muted); }
+.vehicles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .9rem; }
+.vehicle-card { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 1rem; }
+.vehicle-top { display: flex; justify-content: space-between; gap: .5rem; }
+.type { color: var(--secondary); font-weight: 950; }
+.vehicle-card h3 { margin: .85rem 0 .3rem; }
+.vehicle-card p { color: var(--muted); margin: 0 0 .9rem; }
+.price { font-weight: 950; color: var(--primary); font-size: 1.5rem; }
+.price span { color: var(--muted); font-size: .85rem; }
+.insights { margin-top: 1rem; }
+.mini { padding: 1.1rem; }
+.mini.danger strong { color: var(--danger); }
