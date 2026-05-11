@@ -56,7 +56,6 @@ L’application repose sur une architecture **N-Tiers** découplée :
 
 ## 📁 Structure du projet
 
-```text
 Exam-JEE/
 │
 ├── backend/
@@ -70,10 +69,12 @@ Exam-JEE/
 │   │   │   │       ├── repositories/
 │   │   │   │       ├── services/
 │   │   │   │       ├── security/
+│   │   │   │       ├── dto/
 │   │   │   │       └── ExamJeeApplication.java
 │   │   │   │
 │   │   │   └── resources/
-│   │   │       └── application.properties
+│   │   │       ├── application.properties
+│   │   │       └── static/
 │   │   │
 │   │   └── test/
 │   │       └── java/
@@ -81,6 +82,35 @@ Exam-JEE/
 │   ├── pom.xml
 │   └── README.md
 │
+├── frontend/
+│   │
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   ├── services/
+│   │   │   ├── guards/
+│   │   │   ├── interceptors/
+│   │   │   ├── models/
+│   │   │   ├── app.component.ts
+│   │   │   ├── app.config.ts
+│   │   │   └── app.routes.ts
+│   │   │
+│   │   ├── assets/
+│   │   ├── environments/
+│   │   │   └── environment.ts
+│   │   │
+│   │   ├── index.html
+│   │   ├── main.ts
+│   │   └── styles.css
+│   │
+│   ├── angular.json
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tsconfig.json
+│   └── README.md
+│
+├── README.md
 └── .gitignore
 ```
 🔐 Sécurité et authentification
