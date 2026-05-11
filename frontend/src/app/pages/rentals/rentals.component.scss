@@ -1,0 +1,12 @@
+.form-card, .info-card, .table-card { padding: 1.2rem; }
+.form-card h2, .info-card h2 { margin: 0 0 .4rem; }
+.form-card p, .info-card p { color: var(--muted); line-height: 1.65; font-weight: 600; }
+.form-grid.one { grid-template-columns: 1fr; }
+.rental-layout { align-items: stretch; }
+.info-card { background: linear-gradient(135deg, rgba(15,118,110,.13), rgba(255,250,241,.9)); }
+.steps { display: grid; gap: .7rem; margin-top: 1rem; }
+.steps span { background: rgba(255,255,255,.78); border: 1px solid var(--line); padding: .85rem; border-radius: 14px; font-weight: 900; color: #115e59; }
+.table-card { margin-top: 1.1rem; }
+.section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.section-title h2 { margin: 0; }
+.row-actions { display: flex; gap: .5rem; flex-wrap: wrap; }

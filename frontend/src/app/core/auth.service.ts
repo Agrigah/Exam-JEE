@@ -1,63 +1,131 @@
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { AuthRequest, AuthResponse, RegisterRequest, UserRole } from './models';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
-@Injectable({ providedIn: 'root' })
+export interface CurrentUser {
+  username?: string;
+  fullName?: string;
+  email?: string;
+  role?: string;
+  roles?: string[];
+  token?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private readonly http = inject(HttpClient);
-  private readonly router = inject(Router);
-  private readonly api = `${environment.apiBaseUrl}/auth`;
-  private readonly tokenKey = 'vehicle_rental_token';
-  private readonly userKey = 'vehicle_rental_user';
 
-  login(payload: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.api}/login`, payload).pipe(
-      tap(response => this.storeSession(response))
-    );
+  private readonly baseUrl = environment.apiBaseUrl;
+
+  constructor(private http: HttpClient) {}
+
+  login(credentials: { username: string; password: string }) {
+    return this.http.post<any>(`${this.baseUrl}/auth/login`, credentials);
   }
 
-  register(payload: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.api}/register`, payload).pipe(
-      tap(response => this.storeSession(response))
-    );
+  register(user: any) {
+    return this.http.post<any>(`${this.baseUrl}/auth/register`, user);
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  saveUser(user: CurrentUser): void {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   get token(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return localStorage.getItem('token');
   }
 
-  get currentUser(): AuthResponse | null {
-    const raw = localStorage.getItem(this.userKey);
-    return raw ? JSON.parse(raw) as AuthResponse : null;
+  getToken(): string | null {
+    return this.token;
+  }
+
+  get currentUser(): CurrentUser | null {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      try {
+        return JSON.parse(user);
+      } catch {
+        return null;
+      }
+    }
+
+    const token = this.token;
+    if (!token) {
+      return null;
+    }
+
+    return this.decodeToken(token);
   }
 
   isLoggedIn(): boolean {
-    return !!this.token && !!this.currentUser;
+    return !!this.token;
   }
 
-  hasRole(role: UserRole): boolean {
-    return this.currentUser?.role === role;
-  }
-
-  canManage(): boolean {
-    return this.hasRole('ROLE_ADMIN') || this.hasRole('ROLE_EMPLOYE');
-  }
-
-  isAdmin(): boolean {
-    return this.hasRole('ROLE_ADMIN');
+  isAuthenticated(): boolean {
+    return this.isLoggedIn();
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userKey);
-    void this.router.navigateByUrl('/login');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 
-  private storeSession(response: AuthResponse): void {
-    localStorage.setItem(this.tokenKey, response.token);
-    localStorage.setItem(this.userKey, JSON.stringify(response));
+  hasRole(role: string): boolean {
+    const user = this.currentUser;
+
+    if (!user) {
+      return false;
+    }
+
+    if (user.role === role) {
+      return true;
+    }
+
+    if (user.roles && user.roles.includes(role)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  isAdmin(): boolean {
+    return this.hasRole('ROLE_ADMIN') || this.hasRole('ADMIN');
+  }
+
+  isEmployee(): boolean {
+    return this.hasRole('ROLE_EMPLOYE') || this.hasRole('EMPLOYE') || this.hasRole('ROLE_EMPLOYEE') || this.hasRole('EMPLOYEE');
+  }
+
+  isClient(): boolean {
+    return this.hasRole('ROLE_CLIENT') || this.hasRole('CLIENT');
+  }
+
+  canManage(): boolean {
+    return this.isAdmin() || this.isEmployee();
+  }
+
+  private decodeToken(token: string): CurrentUser | null {
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+      const data = JSON.parse(decodedPayload);
+
+      return {
+        username: data.sub || data.username,
+        fullName: data.fullName || data.name || data.sub || data.username,
+        email: data.email,
+        role: data.role,
+        roles: data.roles || data.authorities || [],
+        token
+      };
+    } catch {
+      return null;
+    }
   }
 }

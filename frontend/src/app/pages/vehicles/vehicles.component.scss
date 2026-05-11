@@ -1,0 +1,20 @@
+.manager, .filters { padding: 1.2rem; margin-bottom: 1rem; }
+.manager-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.manager-head h2 { margin: 0; }
+.manager-head p { margin: .3rem 0 0; color: var(--muted); }
+.actions-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
+.filter-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr) auto auto; gap: .75rem; align-items: end; }
+.vehicle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 1rem; }
+.vehicle-card { padding: 1.1rem; position: relative; overflow: hidden; }
+.vehicle-card:before { content: ''; position: absolute; inset: 0 0 auto; height: 6px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.vehicle-top { display: flex; justify-content: space-between; gap: .55rem; margin-bottom: 1rem; }
+.vehicle-card h3 { margin: .2rem 0 .35rem; font-size: 1.35rem; }
+.vehicle-card p { margin: 0; color: var(--muted); font-weight: 700; }
+.specs { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1rem 0; }
+.specs span { background: #fff7ed; border: 1px solid var(--line); border-radius: 999px; padding: .35rem .6rem; color: #7c2d12; font-weight: 800; font-size: .8rem; }
+.price-row { display: flex; align-items: baseline; gap: .3rem; border-top: 1px solid var(--line); padding-top: .85rem; }
+.price-row strong { color: var(--primary); font-size: 1.6rem; }
+.price-row span { color: var(--muted); }
+.card-actions { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+@media (max-width: 1100px) { .filter-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) { .filter-grid { grid-template-columns: 1fr; } }

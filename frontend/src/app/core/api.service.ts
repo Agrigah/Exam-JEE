@@ -1,85 +1,105 @@
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  Agency,
-  AgencyRequest,
-  DashboardStats,
-  Rental,
-  RentalRequest,
-  Vehicle,
-  VehicleRequest,
-  VehicleStatus,
-  VehicleType
-} from './models';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
-export interface VehicleFilter {
-  status?: VehicleStatus | '';
-  type?: VehicleType | '';
-  agencyId?: number | '';
-  keyword?: string;
-}
-
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiService {
-  private readonly http = inject(HttpClient);
-  private readonly api = environment.apiBaseUrl;
 
-  getStats(): Observable<DashboardStats> {
-    return this.http.get<DashboardStats>(`${this.api}/dashboard/stats`);
+  private readonly baseUrl = environment.apiBaseUrl;
+
+  constructor(private http: HttpClient) {}
+
+  get<T>(endpoint: string, params?: any) {
+    return this.http.get<T>(`${this.baseUrl}${endpoint}`, {
+      params: this.buildParams(params)
+    });
   }
 
-  getAgencies(): Observable<Agency[]> {
-    return this.http.get<Agency[]>(`${this.api}/agencies`);
+  post<T>(endpoint: string, data: any) {
+    return this.http.post<T>(`${this.baseUrl}${endpoint}`, data);
   }
 
-  createAgency(payload: AgencyRequest): Observable<Agency> {
-    return this.http.post<Agency>(`${this.api}/agencies`, payload);
+  put<T>(endpoint: string, data: any) {
+    return this.http.put<T>(`${this.baseUrl}${endpoint}`, data);
   }
 
-  updateAgency(id: number, payload: AgencyRequest): Observable<Agency> {
-    return this.http.put<Agency>(`${this.api}/agencies/${id}`, payload);
+  patch<T>(endpoint: string, data?: any) {
+    return this.http.patch<T>(`${this.baseUrl}${endpoint}`, data || {});
   }
 
-  deleteAgency(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/agencies/${id}`);
+  delete<T>(endpoint: string) {
+    return this.http.delete<T>(`${this.baseUrl}${endpoint}`);
   }
 
-  getVehicles(filter: VehicleFilter = {}): Observable<Vehicle[]> {
-    let params = new HttpParams();
-    if (filter.status) params = params.set('status', filter.status);
-    if (filter.type) params = params.set('type', filter.type);
-    if (filter.agencyId) params = params.set('agencyId', filter.agencyId);
-    if (filter.keyword) params = params.set('keyword', filter.keyword);
-    return this.http.get<Vehicle[]>(`${this.api}/vehicles`, { params });
+  getAgencies() {
+    return this.get<any[]>('/agencies');
   }
 
-  createVehicle(payload: VehicleRequest): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.api}/vehicles`, payload);
+  createAgency(agency: any) {
+    return this.post<any>('/agencies', agency);
   }
 
-  updateVehicle(id: number, payload: VehicleRequest): Observable<Vehicle> {
-    return this.http.put<Vehicle>(`${this.api}/vehicles/${id}`, payload);
+  updateAgency(id: number, agency: any) {
+    return this.put<any>(`/agencies/${id}`, agency);
   }
 
-  deleteVehicle(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/vehicles/${id}`);
+  deleteAgency(id: number) {
+    return this.delete<void>(`/agencies/${id}`);
   }
 
-  getRentals(): Observable<Rental[]> {
-    return this.http.get<Rental[]>(`${this.api}/rentals`);
+  getVehicles(params?: any) {
+    return this.get<any[]>('/vehicles', params);
   }
 
-  createRental(payload: RentalRequest): Observable<Rental> {
-    return this.http.post<Rental>(`${this.api}/rentals`, payload);
+  createVehicle(vehicle: any) {
+    return this.post<any>('/vehicles', vehicle);
   }
 
-  finishRental(id: number): Observable<Rental> {
-    return this.http.patch<Rental>(`${this.api}/rentals/${id}/finish`, {});
+  updateVehicle(id: number, vehicle: any) {
+    return this.put<any>(`/vehicles/${id}`, vehicle);
   }
 
-  cancelRental(id: number): Observable<Rental> {
-    return this.http.patch<Rental>(`${this.api}/rentals/${id}/cancel`, {});
+  deleteVehicle(id: number) {
+    return this.delete<void>(`/vehicles/${id}`);
+  }
+
+  getRentals() {
+    return this.get<any[]>('/rentals');
+  }
+
+  createRental(rental: any) {
+    return this.post<any>('/rentals', rental);
+  }
+
+  finishRental(id: number) {
+    return this.patch<any>(`/rentals/${id}/finish`);
+  }
+
+  cancelRental(id: number) {
+    return this.patch<any>(`/rentals/${id}/cancel`);
+  }
+
+  getStats() {
+    return this.get<any>('/dashboard/stats');
+  }
+
+  private buildParams(params?: any): HttpParams {
+    let httpParams = new HttpParams();
+
+    if (!params) {
+      return httpParams;
+    }
+
+    Object.keys(params).forEach(key => {
+      const value = params[key];
+
+      if (value !== null && value !== undefined && value !== '') {
+        httpParams = httpParams.set(key, value);
+      }
+    });
+
+    return httpParams;
   }
 }
